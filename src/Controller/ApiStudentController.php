@@ -4,11 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Student;
 use App\Repository\StudentRepository;
-use Doctrine\ORM\EntityManager;
+use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class ApiStudentController extends AbstractController
 {
@@ -19,12 +21,18 @@ class ApiStudentController extends AbstractController
      * methods={"GET"}
      * )
      */
-    public function index(StudentRepository $studentRepository): JsonResponse
+    public function index(StudentRepository $studentRepository, NormalizerInterface $normalizer): JsonResponse
     {
         // Récuperer tous les étudiants :
         $students = $studentRepository->findAll();
 
-        dd($students);
+        // Sérialisation au format JSON
+        $json = json_encode($students);
+        // Ne vas pas marcher car les attributs sont en private
+        // Il faut normaliser
+        $studentsNormalised = $normalizer -> normalize($students);
+
+        dd($students, $json, $studentsNormalised);
 
         return $this->json([
             'message' => 'Welcome to your new controller!',
@@ -39,7 +47,7 @@ class ApiStudentController extends AbstractController
      * methods={"POST"}
      * )
      */
-    public function add(Request $request, EntityManager $entityManager): JsonResponse
+    public function add(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
         // On attend une requête au format json (Content-Type application/json)
         // TODO: Vérifier le Content-Type
@@ -55,12 +63,14 @@ class ApiStudentController extends AbstractController
         $student = new Student();
         $student->setName($dataFromRequest['name']);
         $student->setFirstName($dataFromRequest['first_name']);
-        //$student->setPicture($dataFromRequest['picture']);
-        $student->setDateOfBirth($dataFromRequest['date_of_birth']);
+        $student->setPicture($dataFromRequest['picture']);
+        $student->setDateOfBirth(new DateTime($dataFromRequest['date_of_birth']));
         $student->setGrade($dataFromRequest['grade']);
-
+        //dd($student);
         // Insertion en base de l'instance student
-
+        $entityManager -> persist($student);
+        $entityManager ->flush();
+        
 
         return $this->json([
             'status' => 'Ajout OK',

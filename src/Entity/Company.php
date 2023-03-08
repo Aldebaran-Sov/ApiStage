@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\StudentRepository;
+use App\Repository\CompanyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=StudentRepository::class)
+ * @ORM\Entity(repositoryClass=CompanyRepository::class)
  */
-class Student
+class Company
 {
     /**
      * @ORM\Id
@@ -27,25 +27,25 @@ class Student
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $first_name;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $picture;
-
-    /**
-     * @ORM\Column(type="date")
-     */
-    private $date_of_birth;
+    private $street;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $grade;
+    private $zipcode;
 
     /**
-     * @ORM\OneToMany(targetEntity=Internship::class, mappedBy="id_student")
+     * @ORM\Column(type="string", length=255)
+     */
+    private $city;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $website;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Internship::class, mappedBy="id_company")
      */
     private $internships;
 
@@ -71,50 +71,50 @@ class Student
         return $this;
     }
 
-    public function getFirstName(): ?string
+    public function getStreet(): ?string
     {
-        return $this->first_name;
+        return $this->street;
     }
 
-    public function setFirstName(string $first_name): self
+    public function setStreet(string $street): self
     {
-        $this->first_name = $first_name;
+        $this->street = $street;
 
         return $this;
     }
 
-    public function getPicture(): ?string
+    public function getZipcode(): ?string
     {
-        return $this->picture;
+        return $this->zipcode;
     }
 
-    public function setPicture(?string $picture): self
+    public function setZipcode(string $zipcode): self
     {
-        $this->picture = $picture;
+        $this->zipcode = $zipcode;
 
         return $this;
     }
 
-    public function getDateOfBirth(): ?\DateTimeInterface
+    public function getCity(): ?string
     {
-        return $this->date_of_birth;
+        return $this->city;
     }
 
-    public function setDateOfBirth(\DateTimeInterface $date_of_birth): self
+    public function setCity(string $city): self
     {
-        $this->date_of_birth = $date_of_birth;
+        $this->city = $city;
 
         return $this;
     }
 
-    public function getGrade(): ?string
+    public function getWebsite(): ?string
     {
-        return $this->grade;
+        return $this->website;
     }
 
-    public function setGrade(string $grade): self
+    public function setWebsite(string $website): self
     {
-        $this->grade = $grade;
+        $this->website = $website;
 
         return $this;
     }
@@ -131,7 +131,7 @@ class Student
     {
         if (!$this->internships->contains($internship)) {
             $this->internships[] = $internship;
-            $internship->setIdStudent($this);
+            $internship->setIdCompany($this);
         }
 
         return $this;
@@ -141,8 +141,8 @@ class Student
     {
         if ($this->internships->removeElement($internship)) {
             // set the owning side to null (unless already changed)
-            if ($internship->getIdStudent() === $this) {
-                $internship->setIdStudent(null);
+            if ($internship->getIdCompany() === $this) {
+                $internship->setIdCompany(null);
             }
         }
 
