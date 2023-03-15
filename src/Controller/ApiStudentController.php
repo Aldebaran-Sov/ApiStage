@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class ApiStudentController extends AbstractController
 {
@@ -21,16 +22,25 @@ class ApiStudentController extends AbstractController
      * methods={"GET"}
      * )
      */
-    public function index(StudentRepository $studentRepository, NormalizerInterface $normalizer): JsonResponse
+    public function index(/*injection de dépendences*/StudentRepository $studentRepository, NormalizerInterface $normalizer, SerializerInterface $serializer): JsonResponse
     {
         // Récuperer tous les étudiants :
         $students = $studentRepository->findAll();
 
         // Sérialisation au format JSON
-        $json = json_encode($students);
+        //$json = json_encode($students);
+        $json = $serializer->serialize($students, 'json', [
+            'circular_reference_handler' => function ($object) {
+                return $object->getId();
+            }
+        ]);
         // Ne vas pas marcher car les attributs sont en private
         // Il faut normaliser
-        $studentsNormalised = $normalizer -> normalize($students);
+        $studentsNormalised = $normalizer -> normalize($students, 'json', [
+            'circular_reference_handler' => function ($object) {
+                return $object->getId();
+            }
+        ]);
 
         dd($students, $json, $studentsNormalised);
 
