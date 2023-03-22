@@ -10,7 +10,7 @@ This API is used to manage student and company data, as well as internships. It 
 
 ## Installation
 
-Clone the repository
+Clone the repository in the www folder.
 
 ```bash
   cd @yourRepository
@@ -22,7 +22,10 @@ Clone the repository
 
 http://172.16.198.1/ApiStage/public/api/
 
-Put in the header API-KEY a string of 42 characters
+Put in the header API-KEY a string of 42 characters.
+
+You can generate a random srting here :
+https://miniwebtool.com/random-string-generator/
 
 ### Endpoints
 
