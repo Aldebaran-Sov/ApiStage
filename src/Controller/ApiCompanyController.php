@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Company;
 use App\Repository\CompanyRepository;
+use App\Service\ApiKeyService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -43,22 +44,30 @@ class ApiCompanyController extends AbstractController
      * methods={"POST"}
      * )
      */
-    public function add(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    public function add(Request $request, EntityManagerInterface $entityManager, ApiKeyService $apiKeyService): JsonResponse
     {
-        $dataFromRequest = $request->toArray();
+        if($apiKeyService->checkApiKey($request)){
+            $dataFromRequest = $request->toArray();
 
-        $company = new Company();
-        $company->setName($dataFromRequest['name']);
-        $company->setStreet($dataFromRequest['street']);
-        $company->setZipcode($dataFromRequest['zipcode']);
-        $company->setCity($dataFromRequest['city']);
-        $company->setWebsite($dataFromRequest['website']);
+            $company = new Company();
+            $company->setName($dataFromRequest['name']);
+            $company->setStreet($dataFromRequest['street']);
+            $company->setZipcode($dataFromRequest['zipcode']);
+            $company->setCity($dataFromRequest['city']);
+            $company->setWebsite($dataFromRequest['website']);
 
-        $entityManager -> persist($company);
-        $entityManager ->flush();
+            $entityManager -> persist($company);
+            $entityManager ->flush();
 
-        return $this->json([
-            'status' => 'Ajout OK',
-        ]);
+            return $this->json([
+                'status' => 'Ajout OK',
+            ]);
+
+        }else{
+            return $this->json([
+                'status' => 'Cles API invalide',
+            ]);
+        }
+        
     }
 }

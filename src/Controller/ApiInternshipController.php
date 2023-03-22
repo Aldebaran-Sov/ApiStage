@@ -7,6 +7,7 @@ use App\Entity\Student;
 use App\Repository\CompanyRepository;
 use App\Repository\InternshipRepository;
 use App\Repository\StudentRepository;
+use App\Service\ApiKeyService;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -58,25 +59,37 @@ class ApiInternshipController extends AbstractController
      * methods={"POST"}
      * )
      */
-    public function add(StudentRepository $studentRepository, CompanyRepository $companyRepository,Request $request, EntityManagerInterface $entityManager)
+    public function add(StudentRepository $studentRepository, CompanyRepository $companyRepository,Request $request, EntityManagerInterface $entityManager, ApiKeyService $apiKeyService)
     {
-        $dataFromRequest = $request->toArray();
+        if($apiKeyService->checkApiKey($request)){
+            $dataFromRequest = $request->toArray();
 
-        $internships = new Internship();
-        $student = $studentRepository->find($dataFromRequest['id_student']);
-        $company = $companyRepository->find($dataFromRequest["id_company"]);
+            $dataFromRequest = $request->toArray();
 
-        $internships->setIdStudent($student);
-        $internships->setIdCompany($company);
-        $internships->setStartDate(new DateTime($dataFromRequest['start_date']));
-        $internships->setEndDate(new DateTime($dataFromRequest['end_date']));
+            $internships = new Internship();
+            $student = $studentRepository->find($dataFromRequest['id_student']);
+            $company = $companyRepository->find($dataFromRequest["id_company"]);
 
-        $entityManager -> persist($internships);
-        $entityManager ->flush();
+            $internships->setIdStudent($student);
+            $internships->setIdCompany($company);
+            $internships->setStartDate(new DateTime($dataFromRequest['start_date']));
+            $internships->setEndDate(new DateTime($dataFromRequest['end_date']));
 
-        return $this->json([
-            'status' => 'Ajout OK',
-        ]);
+            $entityManager -> persist($internships);
+            $entityManager ->flush();
+
+            return $this->json([
+                'status' => 'Ajout OK',
+            ]);
+        }else{
+            return $this->json([
+                'status' => 'Cles API invalide',
+            ]);
+        }
+
+
+
+        
 
     }
 }
