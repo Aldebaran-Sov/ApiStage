@@ -18,7 +18,7 @@ Clone the repository in the www folder.
 ```
 ## API Reference
 
-You can import the ApiStage.postman_collection.json on postman
+You can import the file [ApiStage.postman_collection.json](ApiStage.postman_collection.json) on postman
 
 ### Base URL
 

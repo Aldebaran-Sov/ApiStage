@@ -1,5 +1,7 @@
 
 ###> symfony/framework-bundle ###
+/DATA/api_stage
+/.env
 /.env.local
 /.env.local.php
 /.env.*.local
