@@ -18,6 +18,8 @@ Clone the repository in the www folder.
 ```
 ## API Reference
 
+You can import the ApiStage.postman_collection.json on postman
+
 ### Base URL
 
 http://172.16.198.1/ApiStage/public/api/
@@ -59,6 +61,10 @@ Returns a list of all the companies.
 
 #### Add a company
 
+```http
+  POST /company
+```
+
 | Parameter | Type    | Description                |
 | :-------- | :------- | :-------------------------------- |
 | `name` | `string` | **Required**. |
@@ -99,5 +105,4 @@ Example POST request body for adding a new student:
     "date_of_birth":"1899-07-20",
     "grade": "slam2"
 }
-
 ```

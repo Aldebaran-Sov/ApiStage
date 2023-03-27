@@ -49,7 +49,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Texier\",\r\n    \"first_name\": \"kyliane\",\r\n    \"picture\": \"\",\r\n    \"date_of_birth\":\"2003-07-17\",\r\n    \"grade\": \"slam2\"\r\n}",
+					"raw": "{\r\n    \"name\": \"Steib\",\r\n    \"first_name\": \"Leila\",\r\n    \"picture\": \"\",\r\n    \"date_of_birth\":\"2002-04-06\",\r\n    \"grade\": \"conder\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -216,6 +216,41 @@
 				}
 			},
 			"response": []
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "TISRXREAwBq6bkgCV92HVv4hYOv6a9VoE2E1zA5dGW",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "API-KEY",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }
