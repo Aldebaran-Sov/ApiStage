@@ -10,19 +10,23 @@ This API is used to manage student and company data, as well as internships. It 
 
 ## Installation
 
-Clone the repository in the www folder.
+Clone the repository in your web server folder.
 
 ```bash
   cd @yourRepository
   composer install
 ```
+- change [.env.sample](.env.sample) to .env ;
+- change [api_stage.db.sample](DATA/api_stage.db.sample) to api_stage.db
+
+
 ## API Reference
 
 You can import the file [ApiStage.postman_collection](ApiStage.postman_collection.json) on postman
 
 ### Base URL
 
-http://172.16.198.1/ApiStage/public/api/
+http://@yourWebServerAdress/ApiStage/public/api/
 
 Put in the header API-KEY a string of 42 characters.
 
