@@ -4,12 +4,14 @@ namespace App\Service;
 
 use Symfony\Component\HttpFoundation\Request;
 
-class ApiKeyService{
+class ApiKeyService
+{
     /**
      * @param Request $request
      * @return bool
      */
-    public function checkApiKey( Request $request): bool{
+    public function checkApiKey(Request $request):bool
+    {
         
         // Vérification de la présence de API-KEY dans la requète
         if ($request->headers->has('API-KEY')) {
@@ -26,5 +28,3 @@ class ApiKeyService{
         return $return;
     }
 }
-
-?>
